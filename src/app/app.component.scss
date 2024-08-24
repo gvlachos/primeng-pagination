@@ -1,0 +1,9 @@
+:host {
+  .dataview {
+    &.loading {
+      ::ng-deep .p-dataview-emptymessage {
+        display: none;
+      }
+    }
+  }
+}
