@@ -69,6 +69,8 @@ export class AppComponent {
   }
 
   load(event?: DataViewLazyLoadEvent): void {
+    this.loading = true;
+
     clearTimeout(this.loadTimeout);
 
     this.loadTimeout = setTimeout(() => {
@@ -99,8 +101,10 @@ export class AppComponent {
         this.totalRecords = this.dataList.length;
         this.hasFilterUpdate = false;
         this.resetPagination();
+        this.loading = false;
         this.cd.detectChanges();
       } else {
+        this.loading = false;
         this.cd.detectChanges();
       }
     }, 300);
