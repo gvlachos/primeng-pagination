@@ -16,7 +16,7 @@
   (onPage)="onPage($event)"
 >
     <ng-template pTemplate="list" let-todos>
-        <div class="flex gap-5 mb-2">
+        <div class="flex justify-content-center gap-5 mb-2">
           <p-inputNumber
             inputId="integeronly"
             placeholder="filter by user id"
@@ -31,7 +31,8 @@
             icon="pi pi-search"
             (click)="load()"
           />
-
+        </div>
+        <div class="flex justify-content-center gap-5 mb-2">
           <p-button pRipple
             severity="success"
             label="Clear Search"
@@ -46,7 +47,7 @@
           />
         </div>
 
-        <div class="flex flex-column">
+        <div class="flex flex-column align-items-center">
             <p-card *ngFor="let todo of todos; let first = first" class="border-1 border-indigo-500 mb-5 p-2 w-30rem">
                 <ng-template pTemplate="header">{{ todo.title }}</ng-template>
                 <div class="flex flex-column gap-1">
