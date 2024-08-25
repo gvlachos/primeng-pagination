@@ -89,6 +89,7 @@ export class AppComponent {
       if (event) {
         const start = event.first;
         const end = event.first + PageSize;
+        this.first = event.first;
         result = result.slice(start, end);
       }
 
@@ -111,6 +112,7 @@ export class AppComponent {
   }
 
   resetPagination(detectChanges?: boolean) {
+    console.log(this.first, 'reset')
     this.first = 0;
     if (detectChanges) {
       this.cd.detectChanges();
