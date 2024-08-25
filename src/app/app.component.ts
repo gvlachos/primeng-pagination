@@ -60,8 +60,8 @@ export class AppComponent {
   }
 
   constructor(public cd: ChangeDetectorRef){
-    this.dataList = todos;
-    this.totalRecords = todos.length;
+    this.dataList = [...todos];
+    this.totalRecords = this.dataList.length;
   }
 
   onPage(event: DataViewPageEvent) : void {
@@ -80,13 +80,15 @@ export class AppComponent {
 
       // filter by userid if present or reset filter
       if (this.userId !== null) {
-        result = this.userId
-          ? result.filter(todo => todo.userId === this.userId)
-          : todos;
+        result = result.filter(todo => todo.userId === this.userId);
+        this.totalRecords = result.length;
+      } else {
+        result = [...todos]
+        this.totalRecords = result.length;
       }
 
       // show records as indicated by the event page
-      if (event) {
+      if (event && !this.hasFilterUpdate) {
         const start = event.first;
         const end = event.first + PageSize;
         this.first = event.first;
@@ -95,28 +97,21 @@ export class AppComponent {
 
       // set the data to display
       this.dataList = result;
+      this.loading = false;
 
-      // if data was filtered reset the pagination state
-      // update the total records and reset the filter flag
-      if (this.hasFilterUpdate) {
-        this.totalRecords = this.dataList.length;
-        this.hasFilterUpdate = false;
-        this.resetPagination();
-        this.loading = false;
-        this.cd.detectChanges();
-      } else {
-        this.loading = false;
-        this.cd.detectChanges();
-      }
+      this.resetPagination();
     }, 300);
   }
 
-  resetPagination(detectChanges?: boolean) {
-    console.log(this.first, 'reset')
-    this.first = 0;
-    if (detectChanges) {
-      this.cd.detectChanges();
+  resetPagination() {
+    console.log(this.hasFilterUpdate, this.first, 'reset')
+
+    if (this.hasFilterUpdate) {
+      this.first = 0;
+      this.hasFilterUpdate = false;
     }
+
+    this.cd.detectChanges();
   }
 
   updateFilter(load: boolean, event?: number) {
